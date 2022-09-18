@@ -1,7 +1,7 @@
-import { NextPage } from 'next'
+import { NextPage } from 'next';
 
-import { TestTwitterTimeLine } from '../../src/components/test-twitter-timeline'
+import { TestTwitterTimeLine } from '../../src/components/test-twitter-timeline';
 
-const Page: NextPage = () => <TestTwitterTimeLine />
+const Page: NextPage = () => <TestTwitterTimeLine />;
 
-export default Page
+export default Page;

@@ -1,1 +1,1 @@
-export * from './test-twitter-timeline'
+export * from './test-twitter-timeline';
