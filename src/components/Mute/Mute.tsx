@@ -11,7 +11,7 @@ type Mute = {
 export const Mute: FC = () => {
   const [opened, setOpened] = useState<boolean>(false);
   const [muteList, setMuteList] = useState<string[]>([]);
-  const [data, setData] = useState(["testA", "testB", "testC", "testD"]);
+  const [data, setData] = useState<string[]>([]);
 
   const form = useForm({
     initialValues: {
@@ -34,7 +34,7 @@ export const Mute: FC = () => {
   }, []);
   const handleClose = useCallback(() => {
     setOpened(false);
-    setData(["testA", "testB", "testC", "testD"]);
+    setData([]);
     setMuteList([]);
     form.reset();
   }, []);
