@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Mute, getMutes } from '../../../../utils/firebase/mutes';
+import { useEffect, useState } from "react";
+import { getMutes, Mute } from "src/utils/firebase/mutes";
 
 export type UseMutesOutput = {
   isLoading: boolean;

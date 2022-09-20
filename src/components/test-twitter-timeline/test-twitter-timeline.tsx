@@ -7,7 +7,7 @@ export const TestTwitterTimeLine: FunctionComponent = () => {
   return (
     <ul>
       {mutes.map((mute) => (
-        <li key={mute.id}>
+        <li key={mute.title}>
           {mute.title}
           <div>
             {mute.words.map((word: string) => (
