@@ -1,5 +1,5 @@
-import { FunctionComponent } from 'react';
-import { useMutes } from './hooks/useMutes';
+import { FunctionComponent } from "react";
+import { useMutes } from "./hooks/useMutes";
 
 export const TestTwitterTimeLine: FunctionComponent = () => {
   const { isLoading, mutes } = useMutes();
@@ -7,11 +7,11 @@ export const TestTwitterTimeLine: FunctionComponent = () => {
   return (
     <ul>
       {mutes.map((mute) => (
-        <li key={mute.id}>
+        <li key={mute.title}>
           {mute.title}
           <div>
             {mute.words.map((word) => (
-              <div>{word}</div>
+              <div key={word}>{word}</div>
             ))}
           </div>
           {mute.active ? <div>悟空</div> : <div>カカロット</div>}
