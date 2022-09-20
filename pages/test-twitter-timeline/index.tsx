@@ -1,34 +1,12 @@
 import { NextPage } from 'next';
-import { TestTwitterTimeLine } from '../../src/components/test-twitter-timeline';
+import { TestTwitterTimeLine, PageProps } from '../../src/components/test-twitter-timeline';
 import { GetServerSideProps } from 'next';
 import { auth, Client } from 'twitter-api-sdk';
 
-type PageProps = {
-    data: {
-        author_id: string;
-        id: string;
-        text: string;
-        created_at: string;
-    }[];
-    includes: {};
-    meta: {
-        next_token: string;
-        result_count: number;
-        newest_id: string;
-        oldest_id: string;
-    };
-};
-
-const Page: NextPage = ({ homeTimeline }) => {
-    console.log(homeTimeline);
+const Page = ({ homeTimeline }: PageProps) => {
     return (
         <>
-            <TestTwitterTimeLine />
-            <div>
-                {homeTimeline.data.map((article) => (
-                    <div key={article.id}>{article.text}</div>
-                ))}
-            </div>
+            <TestTwitterTimeLine homeTimeline={homeTimeline} />
         </>
     );
 };
@@ -53,15 +31,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             code_challenge_method: 'plain',
         });
 
-        // await authClient.requestAccessToken(code as string);
         await authClient.requestAccessToken(code as string);
 
         // const host = context.req.headers.host || 'localhost:3000';
         // const protocol = /^localhost/.test(host) ? 'http' : 'https';
         // const res = await fetch(`${protocol}://${host}/api/generateAuthUrl`);
         // const data = await res.json();
-
-        // console.log(data);
 
         const client = new Client(authClient);
 
@@ -71,8 +46,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             expansions: ['author_id'],
             'user.fields': ['profile_image_url', 'username'],
         });
-
-        // console.log(homeTimeline);
 
         return { props: { homeTimeline } };
     } catch (e) {

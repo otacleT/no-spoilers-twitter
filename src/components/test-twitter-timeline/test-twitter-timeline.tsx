@@ -1,21 +1,36 @@
 import { FunctionComponent } from 'react';
 import { useMutes } from './hooks/useMutes';
-import useSWR from 'swr';
 
-// const fetcher = (...args: any[]) => fetch(...args).then((res) => res.json());
+export type PageProps = {
+    homeTimeline?: {
+        data?:
+            | {
+                  author_id?: string | undefined;
+                  id?: string | undefined;
+                  text?: string | undefined;
+                  created_at?: string | undefined;
+              }[]
+            | undefined;
+        includes: {};
+        meta?:
+            | {
+                  next_token: string | undefined;
+                  result_count: number | undefined;
+                  newest_id: string | undefined;
+                  oldest_id: string | undefined;
+              }
+            | undefined;
+    };
+};
 
-export const TestTwitterTimeLine: FunctionComponent = () => {
-    // const { data, error } = useSWR('http://localhost:3000/api/generateAuthUrl', fetcher);
+export const TestTwitterTimeLine: FunctionComponent<PageProps> = (props) => {
+    const { homeTimeline } = props;
     const { isLoading, mutes } = useMutes();
 
-    // console.log(data, error);
     if (isLoading) return <p>Loading...</p>;
 
     return (
         <>
-            <form method='GET' action='/api/generateAuthUrl'>
-                <button type='submit'>Redirect</button>
-            </form>
             <ul>
                 {mutes.map((mute) => (
                     <li key={mute.id}>
@@ -29,6 +44,10 @@ export const TestTwitterTimeLine: FunctionComponent = () => {
                     </li>
                 ))}
             </ul>
+            <div>
+                {homeTimeline &&
+                    homeTimeline.data?.map((article) => <div key={article.id}>{article.text}</div>)}
+            </div>
         </>
     );
 };
