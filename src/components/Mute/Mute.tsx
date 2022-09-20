@@ -1,6 +1,8 @@
-import { Modal, MultiSelect, Space, TextInput } from "@mantine/core";
+import { Button, Modal, MultiSelect, Space, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { FC, useCallback, useEffect, useState } from "react";
+import { useAuth } from "src/context/auth";
+import { addMute } from "src/utils/firebase/addMute";
 import { MuteItem } from "../MuteItem";
 
 type Mute = {
@@ -12,6 +14,7 @@ export const Mute: FC = () => {
   const [opened, setOpened] = useState<boolean>(false);
   const [muteList, setMuteList] = useState<string[]>([]);
   const [data, setData] = useState<string[]>([]);
+  const { user } = useAuth();
 
   const form = useForm({
     initialValues: {
@@ -39,7 +42,7 @@ export const Mute: FC = () => {
     form.reset();
   }, []);
   const handleSubmit = useCallback((values: typeof form.values) => {
-    console.log(values.title, values.muteList);
+    addMute({ user: user, title: values.title, muteList: values.muteList });
     handleClose();
   }, []);
 
@@ -81,9 +84,12 @@ export const Mute: FC = () => {
             {...form.getInputProps("muteList")}
           />
           <Space h="xl" />
-          <button className="w-full h-[40px] bg-[#1d9bf0] rounded-full flex items-center justify-center text-sm leading-none text-white">
+          <Button
+            className="w-full h-[40px] bg-[#1d9bf0] rounded-full flex items-center justify-center text-sm leading-none text-white"
+            type="submit"
+          >
             Add
-          </button>
+          </Button>
         </form>
       </Modal>
     </div>
