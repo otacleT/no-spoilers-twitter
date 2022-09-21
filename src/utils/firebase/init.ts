@@ -1,12 +1,20 @@
-import { initializeApp } from 'firebase/app';
+import { getApp, getApps, initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_APIKEY,
-  authDomain: 'no-spoilers-twitter.firebaseapp.com',
-  projectId: 'no-spoilers-twitter',
-  storageBucket: 'no-spoilers-twitter.appspot.com',
-  messagingSenderId: '418190793243',
-  appId: '1:418190793243:web:8f348741b78009ea70b6be',
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BAKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGE_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
 initializeApp(firebaseConfig);
+
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+const db = getFirestore();
+const auth = getAuth();
+export default app;
+export { db, auth };

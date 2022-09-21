@@ -1,7 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+@keyframes flash {
+  0% {
+    background-color: #afafaf;
+    box-shadow: 20px 0 #afafaf, -20px 0 #fff;
+  }
+  50% {
+    background-color: #fff;
+    box-shadow: 20px 0 #afafaf, -20px 0 #afafaf;
+  }
+  100% {
+    background-color: #afafaf;
+    box-shadow: 20px 0 #fff, -20px 0 #afafaf;
+  }
+}
 @layer base {
   body {
     @apply bg-black;
@@ -14,5 +27,18 @@
   }
   .icon {
     @apply cursor-pointer w-9 h-9 hover:bg-[#1d9bf0] hover:bg-opacity-10 flex items-center justify-center rounded-full transition ease-out;
+  }
+  .loading {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #fff;
+    box-shadow: 20px 0 #fff, -20px 0 #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    animation: flash 0.5s ease-out infinite alternate;
   }
 }

@@ -1,38 +1,55 @@
-import { Modal, MultiSelect, Space, TextInput } from "@mantine/core";
+import { Button, Modal, MultiSelect, Space, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { FC, useState } from "react";
-import { MuteItem } from "../MuteItem";
+import { FC, useCallback, useEffect, useState } from "react";
+import { useAuth } from "src/context/auth";
+import { useMute } from "src/hook/useMute";
+import { MuteItem } from "src/types/MuteItem";
+import { addMute } from "src/utils/firebase/addMute";
+import { CreateModal } from "../CreateModal";
+import { MuteSwitch } from "../MuteItem";
 
 type Mute = {
   title: string;
   muteItem: string;
+  mutable: boolean;
 };
 
 export const Mute: FC = () => {
-  const [opened, setOpened] = useState<boolean>(false);
-  // const [muteList, setMuteList] = useState<
-  // const data = [
-  //   { value: "react", label: "React" },
-  //   { value: "ng", label: "Angular" },
-  //   { value: "svelte", label: "Svelte" },
-  //   { value: "vue", label: "Vue" },
-  //   { value: "riot", label: "Riot" },
-  //   { value: "next", label: "Next.js" },
-  //   { value: "blitz", label: "Blitz.js" },
-  // ];
+  const { isLoading, list } = useMute();
 
-  const form = useForm({
-    initialValues: {
-      title: "",
-      muteItem: "",
-    },
-  });
-  const [data, setData] = useState(["Cleaning", "Manual work", "Lifting", "Delivering"]);
-  const handleSubmit = (values: typeof form.values) => {
-    console.log(values.title, values.muteItem);
-    setOpened(false);
-    form.reset();
+  if (isLoading) {
+    return (
+      <div className="relative h-screen sm:w-[350px]">
+        <div className="loading"></div>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <MuteChild list={list} />
+    </>
+  );
+};
+
+type MuteChildProps = {
+  list: MuteItem[];
+};
+
+export const MuteChild: FC<MuteChildProps> = ({ list }) => {
+  const [opened, setOpened] = useState<boolean>(false);
+  const [userMutes, setUserMutes] = useState<MuteItem[]>(list);
+  const { user } = useAuth();
+
+  const handleUpdate = (changeIndex: number, newItem: MuteItem) => {
+    // console.log("before map", userMutes);
+    const updateArray = userMutes.map((item, index) =>
+      index === changeIndex ? { ...newItem } : { ...item },
+    );
+    // console.log("handleUpdate", updateArray);
+    setUserMutes(updateArray);
   };
+
   return (
     <div className="pl-5 pt-4">
       <div className="hidden flex-grow sm:flex sm:w-[350px] items-center justify-between py-2 px-2">
@@ -44,48 +61,26 @@ export const Mute: FC = () => {
       <h3 className="text-2xl text-white font-bold pt-2 pb-3 px-2">ワードミュート</h3>
       <div className="divide-y divide-gray-700">
         <h4 className="text-sm text-white pb-2 pt-4 font-bold px-2">ミュート中</h4>
-        <MuteItem />
+        {userMutes.map(
+          (item, index) =>
+            item.mutable && (
+              <div key={Math.round(Math.random() * 10000)}>
+                <MuteSwitch muteItem={item} index={index} handleUpdate={handleUpdate} />
+              </div>
+            ),
+        )}
+
         <h4 className="text-sm text-white pb-2 pt-4 font-bold px-2">履歴</h4>
-        <MuteItem />
-        <MuteItem />
+        {userMutes.map(
+          (item, index) =>
+            !item.mutable && (
+              <div key={Math.round(Math.random() * 10000)}>
+                <MuteSwitch muteItem={item} index={index} handleUpdate={handleUpdate} />
+              </div>
+            ),
+        )}
       </div>
-      <Modal
-        centered
-        opened={opened}
-        onClose={() => setOpened(false)}
-        title="ミュートしたい要素を追加"
-      >
-        <form onSubmit={form.onSubmit(handleSubmit)}>
-          <TextInput
-            required
-            label="タイトル"
-            placeholder="ワンピース"
-            {...form.getInputProps("title")}
-          />
-          <Space h="md" />
-          <TextInput
-            required
-            label="ミュートする要素"
-            placeholder="RED"
-            {...form.getInputProps("muteItem")}
-          />
-          <Space h="xl" />
-          <MultiSelect
-            searchable
-            clearable
-            creatable
-            getCreateLabel={(query) => `+ Create ${query}`}
-            onCreate={(query) => `${query}`}
-            data={data}
-            label="Your favorite frameworks/libraries"
-            placeholder="Pick all that you like"
-          />
-          <Space h="xl" />
-          <button className="w-full h-[40px] bg-[#1d9bf0] rounded-full flex items-center justify-center text-sm leading-none text-white">
-            Add
-          </button>
-        </form>
-      </Modal>
+      <CreateModal opened={opened} setOpened={setOpened} setUserMutes={setUserMutes} />
     </div>
   );
 };
