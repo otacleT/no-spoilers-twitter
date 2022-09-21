@@ -12,11 +12,12 @@ type Props = {
   index: number;
   isSelect: boolean;
   handleUpdate: (key: number, newItem: MuteItem) => void;
+  handleDelete: (deleteIndex: number) => void;
 };
 
 export const MuteSwitch: FC<Props> = (props) => {
   const { user } = useAuth();
-  const { muteItem, index, isSelect, handleUpdate } = props;
+  const { muteItem, index, isSelect, handleUpdate, handleDelete } = props;
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
   const handleSwitch = useCallback(
@@ -45,20 +46,16 @@ export const MuteSwitch: FC<Props> = (props) => {
 
   return (
     <div
-      className={`relative py-4 px-3 flex flex-wrap items-center justify-start ${
+      className={`w-full relative py-4 px-3 flex flex-wrap items-center justify-start ${
         isSelect && "cursor-pointer hover:opacity-80"
       }`}
     >
       {isSelect && (
-        <ActionIcon
-          color="red"
-          className="w-[10%] pointer-events-none"
-          onClick={() => console.log("test")}
-        >
+        <ActionIcon className="w-[30px] flex justify-center" onClick={() => handleDelete(index)}>
           <MinusCircleIcon className="w-6 h-6 text-[#ff0000]" />
         </ActionIcon>
       )}
-      <div className="w-[90%]" onClick={() => handleOpen()}>
+      <div className="w-[calc(100%-30px)]" onClick={() => handleOpen()}>
         <h5
           className={`text-2xl text-white opacity-60 ${muteItem.mutable && "opacity-100"} ${
             isSelect && "pl-3"
