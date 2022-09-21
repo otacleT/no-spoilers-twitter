@@ -94,11 +94,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       });
     });
 
-    console.log(authorInfoTimeline);
-
     return { props: { authorInfoTimeline } };
   } catch (e) {
-    console.log(e);
     return {
       props: {
         products: [],
