@@ -2,7 +2,6 @@ import { FC, useState } from "react";
 import { useMute } from "src/hook/useMute";
 import { MuteItem } from "src/types/MuteItem";
 import { CreateModal } from "../CreateModal";
-import { EditModal } from "../EditModal";
 import { MuteSwitch } from "../MuteItem";
 
 type Mute = {
@@ -35,7 +34,6 @@ type MuteChildProps = {
 
 export const MuteChild: FC<MuteChildProps> = ({ list }) => {
   const [isCreate, setIsCreate] = useState<boolean>(false);
-  const [isEdit, setIsEdit] = useState<boolean>(false);
   const [userMutes, setUserMutes] = useState<MuteItem[]>(list);
   const [isSelect, setIsSelect] = useState<boolean>(false);
 
@@ -66,7 +64,6 @@ export const MuteChild: FC<MuteChildProps> = ({ list }) => {
             item.mutable && (
               <div key={Math.round(Math.random() * 10000)}>
                 <MuteSwitch
-                  setIsEdit={setIsEdit}
                   isSelect={isSelect}
                   muteItem={item}
                   index={index}
@@ -82,7 +79,6 @@ export const MuteChild: FC<MuteChildProps> = ({ list }) => {
             !item.mutable && (
               <div key={Math.round(Math.random() * 10000)}>
                 <MuteSwitch
-                  setIsEdit={setIsEdit}
                   isSelect={isSelect}
                   muteItem={item}
                   index={index}
@@ -93,7 +89,6 @@ export const MuteChild: FC<MuteChildProps> = ({ list }) => {
         )}
       </div>
       <CreateModal opened={isCreate} setOpened={setIsCreate} setUserMutes={setUserMutes} />
-      <EditModal opened={isEdit} setOpened={setIsEdit} setUserMutes={setUserMutes} />
     </div>
   );
 };
