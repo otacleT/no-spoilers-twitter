@@ -1,11 +1,8 @@
-import { Button, Modal, MultiSelect, Space, TextInput } from "@mantine/core";
-import { useForm } from "@mantine/form";
-import { FC, useCallback, useEffect, useState } from "react";
-import { useAuth } from "src/context/auth";
+import { FC, useState } from "react";
 import { useMute } from "src/hook/useMute";
 import { MuteItem } from "src/types/MuteItem";
-import { addMute } from "src/utils/firebase/addMute";
 import { CreateModal } from "../CreateModal";
+import { EditModal } from "../EditModal";
 import { MuteSwitch } from "../MuteItem";
 
 type Mute = {
@@ -37,9 +34,10 @@ type MuteChildProps = {
 };
 
 export const MuteChild: FC<MuteChildProps> = ({ list }) => {
-  const [opened, setOpened] = useState<boolean>(false);
+  const [isCreate, setIsCreate] = useState<boolean>(false);
+  const [isEdit, setIsEdit] = useState<boolean>(false);
   const [userMutes, setUserMutes] = useState<MuteItem[]>(list);
-  const { user } = useAuth();
+  const [isSelect, setIsSelect] = useState<boolean>(false);
 
   const handleUpdate = (changeIndex: number, newItem: MuteItem) => {
     // console.log("before map", userMutes);
@@ -53,8 +51,10 @@ export const MuteChild: FC<MuteChildProps> = ({ list }) => {
   return (
     <div className="pl-5 pt-4">
       <div className="hidden flex-grow sm:flex sm:w-[350px] items-center justify-between py-2 px-2">
-        <button className="text-sm text-white leading-none">編集</button>
-        <button className="text-xl text-white leading-none" onClick={() => setOpened(true)}>
+        <button className="text-sm text-white leading-none" onClick={() => setIsSelect(!isSelect)}>
+          編集
+        </button>
+        <button className="text-xl text-white leading-none" onClick={() => setIsCreate(true)}>
           +
         </button>
       </div>
@@ -65,7 +65,13 @@ export const MuteChild: FC<MuteChildProps> = ({ list }) => {
           (item, index) =>
             item.mutable && (
               <div key={Math.round(Math.random() * 10000)}>
-                <MuteSwitch muteItem={item} index={index} handleUpdate={handleUpdate} />
+                <MuteSwitch
+                  setIsEdit={setIsEdit}
+                  isSelect={isSelect}
+                  muteItem={item}
+                  index={index}
+                  handleUpdate={handleUpdate}
+                />
               </div>
             ),
         )}
@@ -75,12 +81,19 @@ export const MuteChild: FC<MuteChildProps> = ({ list }) => {
           (item, index) =>
             !item.mutable && (
               <div key={Math.round(Math.random() * 10000)}>
-                <MuteSwitch muteItem={item} index={index} handleUpdate={handleUpdate} />
+                <MuteSwitch
+                  setIsEdit={setIsEdit}
+                  isSelect={isSelect}
+                  muteItem={item}
+                  index={index}
+                  handleUpdate={handleUpdate}
+                />
               </div>
             ),
         )}
       </div>
-      <CreateModal opened={opened} setOpened={setOpened} setUserMutes={setUserMutes} />
+      <CreateModal opened={isCreate} setOpened={setIsCreate} setUserMutes={setUserMutes} />
+      <EditModal opened={isEdit} setOpened={setIsEdit} setUserMutes={setUserMutes} />
     </div>
   );
 };
