@@ -64,7 +64,7 @@ export const MuteChild: FC<MuteChildProps> = ({ list }) => {
         {userMutes.map(
           (item, index) =>
             item.mutable && (
-              <div key={item.title}>
+              <div key={Math.round(Math.random() * 10000)}>
                 <MuteSwitch muteItem={item} index={index} handleUpdate={handleUpdate} />
               </div>
             ),
@@ -74,7 +74,7 @@ export const MuteChild: FC<MuteChildProps> = ({ list }) => {
         {userMutes.map(
           (item, index) =>
             !item.mutable && (
-              <div key={item.title}>
+              <div key={Math.round(Math.random() * 10000)}>
                 <MuteSwitch muteItem={item} index={index} handleUpdate={handleUpdate} />
               </div>
             ),
