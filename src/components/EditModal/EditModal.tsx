@@ -1,18 +1,21 @@
 import { Button, Modal, MultiSelect, Space, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { Dispatch, FC, SetStateAction, useCallback, useState } from "react";
+import { Dispatch, FC, SetStateAction, useCallback, useEffect, useState } from "react";
 import { useAuth } from "src/context/auth";
 import { MuteItem } from "src/types/MuteItem";
 import { addMute } from "src/utils/firebase/addMute";
+import { editMute } from "src/utils/firebase/editMute";
 
 type Props = {
+  index: number;
   opened: boolean;
+  muteItem: MuteItem;
   setOpened: Dispatch<SetStateAction<boolean>>;
-  setUserMutes: Dispatch<SetStateAction<MuteItem[]>>;
+  handleUpdate: (key: number, newItem: MuteItem) => void;
 };
 
 export const EditModal: FC<Props> = (props) => {
-  const { opened, setOpened, setUserMutes } = props;
+  const { index, opened, muteItem, setOpened, handleUpdate } = props;
   const [muteList, setMuteList] = useState<string[]>([]);
   const [data, setData] = useState<string[]>([]);
   const { user } = useAuth();
@@ -43,30 +46,28 @@ export const EditModal: FC<Props> = (props) => {
   }, []);
   const handleSubmit = useCallback(
     (values: typeof form.values) => {
-      const addId = String(Math.round(Math.random() * 10000000000));
-      setUserMutes((prev) => {
-        return [
-          ...prev,
-          {
-            user: user,
-            title: values.title,
-            muteList: values.muteList,
-            mutable: true,
-            id: addId,
-          },
-        ];
-      });
-      addMute({
+      handleUpdate(index, {
         user: user,
         title: values.title,
         muteList: values.muteList,
-        mutable: true,
-        id: addId,
+        mutable: muteItem.mutable,
+        id: muteItem.id,
+      });
+      editMute({
+        user: user,
+        title: values.title,
+        muteList: values.muteList,
+        mutable: muteItem.mutable,
+        id: muteItem.id,
       });
       handleClose();
     },
-    [user],
+    [muteItem, user],
   );
+  useEffect(() => {
+    form.setValues({ title: muteItem.title, muteList: muteItem.muteList });
+    setData([...muteItem.muteList]);
+  }, [muteItem]);
   return (
     <Modal centered opened={opened} onClose={handleClose} title="ミュートしたいワードを編集">
       <form onSubmit={form.onSubmit(handleSubmit)}>
