@@ -1,13 +1,17 @@
 import { NextPage } from 'next';
-import { TestTwitterTimeLine, PageProps } from '../../src/components/test-twitter-timeline';
+import {
+    TestTwitterTimeLine,
+    PageProps,
+    HomeTimelineProps,
+} from '../../src/components/test-twitter-timeline';
 import { GetServerSideProps } from 'next';
 import { auth, Client } from 'twitter-api-sdk';
 import nookie from 'nookies';
 
-const Page = ({ homeTimeline }: PageProps) => {
+const Page = ({ authorInfoTimeline }: HomeTimelineProps) => {
     return (
         <>
-            <TestTwitterTimeLine homeTimeline={homeTimeline} />
+            <TestTwitterTimeLine authorInfoTimeline={authorInfoTimeline} />
         </>
     );
 };
@@ -45,7 +49,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
             nookie.set(context, 'accessToken', JSON.stringify(token) ?? '');
 
-            console.log('ggggg');
             // const host = context.req.headers.host || 'localhost:3000';
             // const protocol = /^localhost/.test(host) ? 'http' : 'https';
             // const res = await fetch(`${protocol}://${host}/api/generateAuthUrl`);
@@ -58,11 +61,43 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             'tweet.fields': ['author_id', 'created_at'],
             expansions: ['author_id'],
             'user.fields': ['profile_image_url', 'username'],
+            exclude: ['replies', 'retweets'],
         });
 
-        console.log(homeTimeline);
+        const users = homeTimeline.includes?.users;
 
-        return { props: { homeTimeline } };
+        const authorInfoTimeline = new Array();
+
+        homeTimeline.data?.forEach((atc) => {
+            let username;
+            let name;
+            let user_profile_image_url;
+
+            if (users) {
+                for (const user of users) {
+                    if (user.id == atc.author_id) {
+                        username = user.username;
+                        name = user.name;
+                        user_profile_image_url = user.profile_image_url;
+                        break;
+                    }
+                }
+            }
+
+            authorInfoTimeline.push({
+                id: atc.id,
+                author_id: atc.author_id,
+                author_username: username,
+                author_name: name,
+                author_profile_image_url: user_profile_image_url,
+                text: atc.text,
+                created_at: atc.created_at,
+            });
+        });
+
+        console.log(authorInfoTimeline);
+
+        return { props: { authorInfoTimeline } };
     } catch (e) {
         console.log(e);
         return {

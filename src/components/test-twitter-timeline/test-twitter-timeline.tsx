@@ -23,39 +23,36 @@ export type PageProps = {
     };
 };
 
-export const TestTwitterTimeLine: FunctionComponent<PageProps> = (props) => {
-    const { homeTimeline } = props;
-    const { isLoading, mutes } = useMutes();
-    const [currentTimeLine, setCurrentTimeline] = useState(homeTimeline);
+export type HomeTimelineProps = {
+    authorInfoTimeline?:
+        | {
+              id?: string | undefined;
+              author_id?: string | undefined;
+              author_username: string | undefined;
+              author_name: string | undefined;
+              author_profile_image_url: string | undefined;
+              text?: string | undefined;
+              created_at?: string | undefined;
+          }[]
+        | undefined;
+};
 
-    useEffect(() => {
-        if (homeTimeline) {
-            setCurrentTimeline(homeTimeline);
-        }
-    }, []);
+export const TestTwitterTimeLine: FunctionComponent<HomeTimelineProps> = (props) => {
+    const { authorInfoTimeline } = props;
+    const { isLoading, mutes } = useMutes();
+    const [currentTimeLine, setCurrentTimeline] = useState(authorInfoTimeline);
 
     if (isLoading) return <p>Loading...</p>;
 
     return (
         <>
-            <ul>
-                {mutes.map((mute) => (
-                    <li key={mute.id}>
-                        {mute.title}
-                        {mute.id}
-                        <div>
-                            {mute.words.map((word) => (
-                                <div>{word}</div>
-                            ))}
-                        </div>
-                        {mute.active ? <div>悟空</div> : <div>カカロット</div>}
-                    </li>
-                ))}
-            </ul>
             <div>
                 {currentTimeLine &&
-                    currentTimeLine.data?.map((article) => (
-                        <div key={article.id}>{article.text}</div>
+                    currentTimeLine.map((article) => (
+                        <div key={article.id}>
+                            {article.author_name}
+                            {article.author_profile_image_url}
+                        </div>
                     ))}
             </div>
         </>
