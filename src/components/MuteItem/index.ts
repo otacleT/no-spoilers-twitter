@@ -1,1 +1,1 @@
-export { MuteItem } from "./MuteItem";
+export { MuteSwitch } from "./MuteSwitch";
