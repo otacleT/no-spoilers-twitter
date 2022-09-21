@@ -59,13 +59,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
 
     const client = new Client(authClient);
-    const homeTimeline = await client.tweets.usersIdTimeline('1490233024608608264', {
-      max_results: 20,
-      'tweet.fields': ['author_id', 'created_at'],
-      expansions: ['author_id'],
-      'user.fields': ['profile_image_url', 'username'],
-      exclude: ['replies', 'retweets'],
-    });
+    const homeTimeline = await client.tweets.usersIdTimeline(
+      `${process.env.NEXT_PUBLIC_AUTHEN_ID}`,
+      {
+        max_results: 20,
+        'tweet.fields': ['author_id', 'created_at'],
+        expansions: ['author_id'],
+        'user.fields': ['profile_image_url', 'username'],
+        exclude: ['replies', 'retweets'],
+      },
+    );
 
     const users = homeTimeline.includes?.users;
 
