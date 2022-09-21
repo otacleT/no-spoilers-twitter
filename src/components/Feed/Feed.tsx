@@ -35,7 +35,9 @@ export const Feed: FC<HomeTimelineProps> = (props) => {
           currentTimeLine.map((article) => (
             <li key={article.id}>
               {article.author_name}
+              {article.author_name}
               {article.author_profile_image_url}
+              {article.text}
             </li>
           ))}
       </ul>
