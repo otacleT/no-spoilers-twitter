@@ -5,4 +5,5 @@ export type MuteItem = {
   title: string;
   muteList: string[];
   mutable: boolean;
+  id: string;
 };
