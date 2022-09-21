@@ -1,5 +1,3 @@
-import { addDoc, collection, doc, serverTimestamp, updateDoc } from '@firebase/firestore';
-import { getDownloadURL, ref, uploadString } from '@firebase/storage';
 import {
   CalendarIcon,
   ChartBarIcon,
@@ -8,8 +6,8 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import { Picker } from 'emoji-mart';
+import 'emoji-mart/css/emoji-mart.css';
 import { ChangeEvent, FC, useCallback, useRef, useState } from 'react';
-// import { db, storage } from 'src/lib/firebase/init';
 
 export const Input: FC = () => {
   const [input, setInput] = useState<string>('');
@@ -17,36 +15,6 @@ export const Input: FC = () => {
   const [showEmojis, setShowEmojis] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const filePickerRef = useRef<HTMLInputElement>(null);
-
-  // const sendPost = useCallback(async () => {
-  //   if (loading) return;
-  //   setLoading(true);
-
-  //   const docRef = await addDoc(collection(db, 'posts'), {
-  //     id: session.user.uid,
-  //     username: session.user.name,
-  //     userImg: session.user.image,
-  //     tag: session.user.tag,
-  //     text: input,
-  //     timestamp: serverTimestamp(),
-  //   });
-
-  //   const imageRef = ref(storage, `posts/${docRef.id}/image`);
-
-  //   if (selectedFile) {
-  //     await uploadString(imageRef, selectedFile, 'data_url').then(async () => {
-  //       const downloadURL = await getDownloadURL(imageRef);
-  //       await updateDoc(doc(db, 'posts', docRef.id), {
-  //         image: downloadURL,
-  //       });
-  //     });
-  //   }
-
-  //   setLoading(false);
-  //   setInput('');
-  //   setSelectedFile(null);
-  //   setShowEmojis(false);
-  // }, [input, selectedFile]);
 
   const addImageToPost = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -93,7 +61,7 @@ export const Input: FC = () => {
           {selectedFile && (
             <div className='relative'>
               <div
-                className='absolute w-8 h-8 bg-[#1d9bf0] hover:bg-[#272c26] bg-opacity-75 rounded-full flex items-center justify-center top-1 left-1 cursor-pointer'
+                className='absolute w-8 h-8 bg-[#15181c] hover:bg-[#272c26] bg-opacity-75 rounded-full flex items-center justify-center top-1 left-1 cursor-pointer'
                 onClick={() => setSelectedFile(null)}
               >
                 <XMarkIcon className='text-white h-5 ' />
@@ -129,6 +97,7 @@ export const Input: FC = () => {
                       marginLeft: -40,
                       maxWidth: '320px',
                       borderRadius: '20px',
+                      zIndex: 100,
                     }}
                     theme='dark'
                   />
