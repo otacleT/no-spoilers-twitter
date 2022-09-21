@@ -1,0 +1,1 @@
+export { MuteSwitch } from "./MuteSwitch";
