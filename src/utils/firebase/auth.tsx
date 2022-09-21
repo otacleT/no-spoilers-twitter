@@ -1,4 +1,4 @@
-import { TwitterAuthProvider, signInWithRedirect, signOut, signInWithPopup } from "firebase/auth";
+import { signInWithPopup, signOut, TwitterAuthProvider } from "firebase/auth";
 import { auth } from "./init";
 
 export const login = async () => {
