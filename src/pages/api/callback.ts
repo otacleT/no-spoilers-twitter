@@ -5,7 +5,7 @@ import { setCookie, parseCookies } from 'nookies';
 const authClient = new auth.OAuth2User({
   client_id: process.env.NEXT_PUBLIC_CLIENT_ID as string,
   client_secret: process.env.NEXT_PUBLIC_CLIENT_SECRET as string,
-  callback: 'http://localhost:3000/api/callback',
+  callback: `${process.env.NEXT_PUBLIC_HEAD_URL}/api/callback`,
   scopes: ['tweet.read', 'users.read', 'offline.access'],
 });
 
