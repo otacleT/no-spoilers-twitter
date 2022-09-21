@@ -12,7 +12,7 @@ const Page: NextPage = ({ authorInfoTimeline }: HomeTimelineProps) => {
       <Head>
         <title>Twitter clone</title>
       </Head>
-      <main className='bg-black min-h-screen flex max-w-[1500px] mx-auto'>
+      <main className='min-h-screen flex max-w-[1500px] mx-auto'>
         <Sidebar />
         <Timeline authorInfoTimeline={authorInfoTimeline} />
       </main>
@@ -59,7 +59,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
 
     const client = new Client(authClient);
-    const homeTimeline = await client.tweets.usersIdTimeline('1567915394400415745', {
+    const homeTimeline = await client.tweets.usersIdTimeline('1490233024608608264', {
       max_results: 20,
       'tweet.fields': ['author_id', 'created_at'],
       expansions: ['author_id'],
@@ -99,8 +99,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     });
 
     return { props: { authorInfoTimeline } };
-  } catch (e) {
-    console.log(e);
+  } catch (e: any) {
     return {
       props: {
         products: [],
