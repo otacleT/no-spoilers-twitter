@@ -75,11 +75,7 @@ export const Input: FC = () => {
   );
 
   return (
-    <div
-      className={`border-b border-gray-700 p-3 flex space-x-3 scrollbar-hide ${
-        loading && 'opacity-60'
-      }`}
-    >
+    <div className={`border-b border-gray-700 p-3 flex space-x-3 ${loading && 'opacity-60'}`}>
       <img
         src='https://yt3.ggpht.com/yti/AJo0G0mqpfSYV-eIAjjWrFAGnBJIkUlj6wdrn-9Up-br=s88-c-k-c0x00ffffff-no-rj-mo'
         alt=''

@@ -12,7 +12,7 @@ const Page: NextPage = ({ authorInfoTimeline }: HomeTimelineProps) => {
       <Head>
         <title>Twitter clone</title>
       </Head>
-      <main className='bg-black min-h-screen flex max-w-[1500px] mx-auto'>
+      <main className='min-h-screen flex max-w-[1500px] mx-auto'>
         <Sidebar />
         <Timeline authorInfoTimeline={authorInfoTimeline} />
       </main>
@@ -23,7 +23,7 @@ const Page: NextPage = ({ authorInfoTimeline }: HomeTimelineProps) => {
 const authClient = new auth.OAuth2User({
   client_id: process.env.NEXT_PUBLIC_CLIENT_ID as string,
   client_secret: process.env.NEXT_PUBLIC_CLIENT_SECRET as string,
-  callback: 'http://localhost:3000/timeline',
+  callback: `${process.env.NEXT_PUBLIC_HEAD_URL}/timeline`,
   scopes: ['tweet.read', 'users.read', 'offline.access'],
 });
 
@@ -99,8 +99,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     });
 
     return { props: { authorInfoTimeline } };
-  } catch (e) {
-    console.log(e);
+  } catch (e: any) {
     return {
       props: {
         products: [],

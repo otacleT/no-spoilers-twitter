@@ -45,8 +45,8 @@ export const MuteChild: FC<MuteChildProps> = (props) => {
   );
 
   return (
-    <div className='pl-5 pt-4'>
-      <div className='hidden flex-grow sm:flex sm:w-[350px] items-center justify-between py-2 px-2'>
+    <div className='pl-3 pt-4 xl:w-[350px]'>
+      <div className='hidden flex-grow sm:flex items-center justify-between py-2 px-2'>
         <button className='text-sm text-white leading-none' onClick={() => setIsSelect(!isSelect)}>
           {isSelect ? '完了' : '編集'}
         </button>
