@@ -1,4 +1,4 @@
-import { doc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { MuteItem } from "src/types/MuteItem";
 import { db } from "./init";
 
