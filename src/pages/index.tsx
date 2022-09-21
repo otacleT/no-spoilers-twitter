@@ -13,17 +13,12 @@ const Home: NextPage = () => {
       <h1 className='text-3xl font-bold text-white mt-6'>No Spoilers Twitter!!!</h1>
       {user ? (
         <div className='w-2/3'>
-          <Link href='/timeline'>
-            <a className='w-full flex items-center justify-center border border-white px-4 py-3 mt-8 text-lg font-bold text-white rounded-full'>
-              タイムラインを見る
-            </a>
-          </Link>
           <form
+            className='w-full flex items-center justify-center border border-white px-4 py-3 mt-8 text-lg font-bold text-white rounded-full'
             method='GET'
             action='/api/generateAuthUrl'
-            className='w-full flex items-center justify-center border border-white px-4 py-3 mt-8 text-lg font-bold text-white rounded-full'
           >
-            <button type='submit'>Redirect</button>
+            <button type='submit'>タイムラインを見る</button>
           </form>
           <button
             className='w-full flex items-center justify-center border border-white px-4 py-3 mt-8 text-lg font-bold text-white rounded-full'
