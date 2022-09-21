@@ -1,9 +1,10 @@
 import { FC } from 'react';
-import { Feed } from '../Feed';
+import { Feed, HomeTimelineProps } from '../Feed';
 import { useMute } from 'src/hook/useMute';
 import { MuteChild } from '../Mute/Mute';
 
-export const Timeline: FC = () => {
+export const Timeline: FC<HomeTimelineProps> = (props) => {
+  const { authorInfoTimeline } = props;
   const { isLoading, list } = useMute();
 
   if (isLoading) {
@@ -16,7 +17,7 @@ export const Timeline: FC = () => {
 
   return (
     <>
-      <Feed />
+      <Feed authorInfoTimeline={authorInfoTimeline} />
       <MuteChild list={list} />
     </>
   );
