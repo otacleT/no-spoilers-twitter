@@ -31,7 +31,7 @@ export const Feed: FC<HomeTimelineProps> = (props) => {
       <Input />
       <div className='devide-y divide-gray-700'>
         {authorInfoTimeline?.map((article) => (
-          <FeedItem article={article} />
+          <FeedItem key={Math.round(Math.random() * 10000)} article={article} />
         ))}
       </div>
     </div>

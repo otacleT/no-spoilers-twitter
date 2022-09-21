@@ -18,13 +18,14 @@ type ArticleType = {
 };
 
 type Props = {
+  key: number;
   article: ArticleType;
 };
 
 export const FeedItem: FC<Props> = (props) => {
-  const { article } = props;
+  const { key, article } = props;
   return (
-    <div className='p-3'>
+    <div className='p-3' key={key}>
       <div className='flex w-full space-x-3'>
         <img
           src={article.author_profile_image_url}
