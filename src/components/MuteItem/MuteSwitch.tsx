@@ -1,32 +1,35 @@
 import { MinusCircleIcon } from "@heroicons/react/24/outline";
 import { ChevronRightIcon } from "@heroicons/react/24/solid";
 import { ActionIcon, Badge, Switch } from "@mantine/core";
-import { Dispatch, FC, SetStateAction, useCallback, useEffect, useState } from "react";
+import { FC, useCallback, useState } from "react";
+import { useAuth } from "src/context/auth";
 import { MuteItem } from "src/types/MuteItem";
 import { editMute } from "src/utils/firebase/editMute";
+import { EditModal } from "../EditModal";
 
 type Props = {
   muteItem: MuteItem;
   index: number;
   isSelect: boolean;
-  setIsEdit: Dispatch<SetStateAction<boolean>>;
   handleUpdate: (key: number, newItem: MuteItem) => void;
 };
 
 export const MuteSwitch: FC<Props> = (props) => {
-  const { muteItem, index, isSelect, setIsEdit, handleUpdate } = props;
+  const { user } = useAuth();
+  const { muteItem, index, isSelect, handleUpdate } = props;
+  const [isEdit, setIsEdit] = useState<boolean>(false);
 
   const handleSwitch = useCallback(
     (event: boolean) => {
       handleUpdate(index, {
-        user: muteItem.user,
+        user: user,
         title: muteItem.title,
         muteList: muteItem.muteList,
         mutable: event,
         id: muteItem.id,
       });
       editMute({
-        user: muteItem.user,
+        user: user,
         title: muteItem.title,
         muteList: muteItem.muteList,
         mutable: event,
@@ -70,7 +73,7 @@ export const MuteSwitch: FC<Props> = (props) => {
         </div>
       </div>
       {isSelect ? (
-        <ChevronRightIcon className="w-6 h-6 absolute top-1/2 right-2 -translate-y-1/2" />
+        <ChevronRightIcon className="w-6 h-6 absolute top-1/2 right-2 -translate-y-1/2 pointer-events-none" />
       ) : (
         <Switch
           checked={muteItem.mutable}
@@ -79,6 +82,13 @@ export const MuteSwitch: FC<Props> = (props) => {
           onChange={(event) => handleSwitch(event.currentTarget.checked)}
         />
       )}
+      <EditModal
+        index={index}
+        opened={isEdit}
+        muteItem={muteItem}
+        setOpened={setIsEdit}
+        handleUpdate={handleUpdate}
+      />
     </div>
   );
 };
