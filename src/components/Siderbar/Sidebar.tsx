@@ -12,8 +12,11 @@ import {
   EllipsisHorizontalIcon,
 } from '@heroicons/react/24/outline';
 import { SidebarLink } from '../SidebarLink';
+import { useAuth } from 'src/context/auth';
 
 export const Sidebar: FC = () => {
+  // firebase authにTwitterのユーザー情報に関する型定義がされていないため
+  const { user } = useAuth() as any;
   return (
     <div className='hidden sm:flex flex-col items-center xl:items-start xl:w-[340px] p-2 fixed h-full'>
       <div className='flex items-center justify-center w-14 h-14 hoverAnimation p-0 xl:ml-24 '>
@@ -33,14 +36,10 @@ export const Sidebar: FC = () => {
         Tweet
       </button>
       <div className='text-[#d9d9d9] flex items-center justify-center hoverAnimation xl:ml-auto xl:-mr-5 mt-auto'>
-        <img
-          src='https://yt3.ggpht.com/yti/AJo0G0mqpfSYV-eIAjjWrFAGnBJIkUlj6wdrn-9Up-br=s88-c-k-c0x00ffffff-no-rj-mo'
-          alt=''
-          className='h-10 w-10 rounded-full xl:mr-2.5'
-        />
+        <img src={user?.photoURL!} alt='' className='h-10 w-10 rounded-full xl:mr-2.5' />
         <div className='hidden xl:inline leading-5'>
-          <h4 className='font-bold'>firebase user</h4>
-          <p className='text-[#6e767d]'>@firebaseuser</p>
+          <h4 className='font-bold'>{user?.displayName}</h4>
+          <p className='text-[#6e767d]'>@{user?.reloadUserInfo.screenName}</p>
         </div>
         <EllipsisHorizontalIcon className='h-5 hidden xl:inline ml-10' />
       </div>
