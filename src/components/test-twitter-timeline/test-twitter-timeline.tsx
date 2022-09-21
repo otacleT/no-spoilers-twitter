@@ -1,6 +1,5 @@
 import { FunctionComponent, useState, useEffect } from 'react';
 import { useMutes } from './hooks/useMutes';
-import { auth, Client } from 'twitter-api-sdk';
 
 export type PageProps = {
     homeTimeline?: {
@@ -24,17 +23,16 @@ export type PageProps = {
     };
 };
 
-const authClient = new auth.OAuth2User({
-    client_id: process.env.NEXT_PUBLIC_CLIENT_ID as string,
-    client_secret: process.env.NEXT_PUBLIC_CLIENT_SECRET as string,
-    callback: 'http://localhost:3000/test-twitter-timeline',
-    scopes: ['tweet.read', 'users.read'],
-});
-
 export const TestTwitterTimeLine: FunctionComponent<PageProps> = (props) => {
     const { homeTimeline } = props;
     const { isLoading, mutes } = useMutes();
     const [currentTimeLine, setCurrentTimeline] = useState(homeTimeline);
+
+    useEffect(() => {
+        if (homeTimeline) {
+            setCurrentTimeline(homeTimeline);
+        }
+    }, []);
 
     if (isLoading) return <p>Loading...</p>;
 
