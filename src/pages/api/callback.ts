@@ -34,7 +34,7 @@ export default async function getTimeline(req: NextApiRequest, res: NextApiRespo
     });
   }
 
-  const response = await client.tweets.usersIdTimeline('1567915394400415745', {
+  const response = await client.tweets.usersIdTimeline(`${process.env.NEXT_PUBLIC_AUTHEN_ID}`, {
     max_results: 20,
     'tweet.fields': ['author_id', 'created_at'],
     expansions: ['author_id'],
