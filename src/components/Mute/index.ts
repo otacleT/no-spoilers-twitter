@@ -1,1 +1,1 @@
-export { Mute } from './Mute';
+export * from './Mute';
