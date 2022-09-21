@@ -1,17 +1,13 @@
 import { Button, Modal, MultiSelect, Space, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { FC, useCallback, useEffect, useState, Dispatch, SetStateAction } from 'react';
+
 import { useAuth } from 'src/context/auth';
 import { useMute } from 'src/hook/useMute';
 import { MuteItem } from 'src/types/MuteItem';
-import { addMute } from 'src/utils/firebase/addMute';
+import { deleteMute } from 'src/utils/firebase/deleteMute';
 import { CreateModal } from '../CreateModal';
 import { MuteSwitch } from '../MuteItem';
-
-// type MuteChildProps = {
-//   userMutes: MuteItem[];
-//   setUserMutes: Dispatch<SetStateAction<MuteItem[]>>;
-// };
 
 type MuteChildProps = {
   list: MuteItem[];
@@ -21,23 +17,42 @@ export const MuteChild: FC<MuteChildProps> = (props) => {
   const { list } = props;
   // const { userMutes, setUserMutes } = props;
   const [opened, setOpened] = useState<boolean>(false);
-  const [userMutes, setUserMutes] = useState<MuteItem[]>(list);
   const { user } = useAuth();
+  const [isCreate, setIsCreate] = useState<boolean>(false);
+  const [userMutes, setUserMutes] = useState<MuteItem[]>(list);
+  const [isSelect, setIsSelect] = useState<boolean>(false);
 
-  const handleUpdate = (changeIndex: number, newItem: MuteItem) => {
-    // console.log("before map", userMutes);
-    const updateArray = userMutes.map((item, index) =>
-      index === changeIndex ? { ...newItem } : { ...item },
-    );
-    // console.log("handleUpdate", updateArray);
-    setUserMutes(updateArray);
-  };
+  const handleUpdate = useCallback(
+    (changeIndex: number, newItem: MuteItem) => {
+      // console.log("before map", userMutes);
+      const updateArray = userMutes.map((item, index) =>
+        index === changeIndex ? { ...newItem } : { ...item },
+      );
+      // console.log("handleUpdate", updateArray);
+      setUserMutes(updateArray);
+    },
+    [userMutes],
+  );
+
+  const handleDelete = useCallback(
+    (deleteIndex: number) => {
+      const deletedArray = userMutes.filter((_, index) => index !== deleteIndex);
+      deleteMute({
+        user: user,
+        id: userMutes[deleteIndex].id,
+      });
+      setUserMutes([...deletedArray]);
+    },
+    [user, userMutes],
+  );
 
   return (
     <div className='pl-5 pt-4'>
       <div className='hidden flex-grow sm:flex sm:w-[350px] items-center justify-between py-2 px-2'>
-        <button className='text-sm text-white leading-none'>編集</button>
-        <button className='text-xl text-white leading-none' onClick={() => setOpened(true)}>
+        <button className='text-sm text-white leading-none' onClick={() => setIsSelect(!isSelect)}>
+          {isSelect ? '完了' : '編集'}
+        </button>
+        <button className='text-xl text-white leading-none' onClick={() => setIsCreate(true)}>
           +
         </button>
       </div>
@@ -49,7 +64,13 @@ export const MuteChild: FC<MuteChildProps> = (props) => {
             (item, index) =>
               item.mutable && (
                 <div key={Math.round(Math.random() * 10000)}>
-                  <MuteSwitch muteItem={item} index={index} handleUpdate={handleUpdate} />
+                  <MuteSwitch
+                    isSelect={isSelect}
+                    muteItem={item}
+                    index={index}
+                    handleUpdate={handleUpdate}
+                    handleDelete={handleDelete}
+                  />
                 </div>
               ),
           )}
@@ -59,13 +80,19 @@ export const MuteChild: FC<MuteChildProps> = (props) => {
           userMutes.map(
             (item, index) =>
               !item.mutable && (
-                <div key={Math.round(Math.random() * 10000)}>
-                  <MuteSwitch muteItem={item} index={index} handleUpdate={handleUpdate} />
+                <div className='w-full relative' key={Math.round(Math.random() * 10000)}>
+                  <MuteSwitch
+                    isSelect={isSelect}
+                    muteItem={item}
+                    index={index}
+                    handleUpdate={handleUpdate}
+                    handleDelete={handleDelete}
+                  />
                 </div>
               ),
           )}
       </div>
-      <CreateModal opened={opened} setOpened={setOpened} setUserMutes={setUserMutes} />
+      <CreateModal opened={isCreate} setOpened={setIsCreate} setUserMutes={setUserMutes} />
     </div>
   );
 };
