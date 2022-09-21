@@ -36,8 +36,6 @@ export const Timeline: FC<HomeTimelineProps> = (props) => {
     setFilteredTimeline(timeline);
   }, [currentMutewords, authorInfoTimeline]);
 
-  console.log(filteredTimeline);
-
   if (isLoading) {
     return (
       <div className='relative h-screen sm:ml-[73px] xl:ml-[370px] sm:w-[calc(100%-73px)] xl:w-[calc(100%-370px)]'>
@@ -49,7 +47,6 @@ export const Timeline: FC<HomeTimelineProps> = (props) => {
   return (
     <>
       <Feed authorInfoTimeline={filteredTimeline} />
-      {/* <MuteChild list={list} /> */}
       <MuteChild userMutes={userMutes} setUserMutes={setUserMutes} />
     </>
   );

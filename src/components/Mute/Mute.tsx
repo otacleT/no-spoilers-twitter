@@ -9,31 +9,24 @@ import { deleteMute } from 'src/utils/firebase/deleteMute';
 import { CreateModal } from '../CreateModal';
 import { MuteSwitch } from '../MuteItem';
 
-// type MuteChildProps = {
-//   list: MuteItem[];
-// };
-
 type MuteChildProps = {
   userMutes: MuteItem[];
   setUserMutes: Dispatch<SetStateAction<MuteItem[]>>;
 };
 
 export const MuteChild: FC<MuteChildProps> = (props) => {
-  // const { list } = props;
   const { userMutes, setUserMutes } = props;
   const [opened, setOpened] = useState<boolean>(false);
   const { user } = useAuth();
   const [isCreate, setIsCreate] = useState<boolean>(false);
-  // const [userMutes, setUserMutes] = useState<MuteItem[]>(list);
+
   const [isSelect, setIsSelect] = useState<boolean>(false);
 
   const handleUpdate = useCallback(
     (changeIndex: number, newItem: MuteItem) => {
-      // console.log("before map", userMutes);
       const updateArray = userMutes.map((item, index) =>
         index === changeIndex ? { ...newItem } : { ...item },
       );
-      // console.log("handleUpdate", updateArray);
       setUserMutes(updateArray);
     },
     [userMutes, setUserMutes],
