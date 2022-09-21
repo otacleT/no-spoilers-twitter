@@ -11,7 +11,7 @@ export const TestTwitterTimeLine: FunctionComponent = () => {
           {mute.title}
           <div>
             {mute.words.map((word: string) => (
-              <div>{word}</div>
+              <div key={word}>{word}</div>
             ))}
           </div>
           {mute.active ? <div>悟空</div> : <div>カカロット</div>}
