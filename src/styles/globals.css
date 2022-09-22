@@ -15,6 +15,38 @@
     box-shadow: 20px 0 #fff, -20px 0 #afafaf;
   }
 }
+@keyframes fadeIn {
+  0% {
+    transform: translateX(-10px);
+    opacity: 0;
+    visibility: hidden;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+  }
+}
+@keyframes translateL {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(10px);
+  }
+}
+@keyframes translateR {
+  0% {
+    transform: translate(0, -50%);
+    opacity: 0;
+    visibility: hidden;
+  }
+  100% {
+    transform: translate(-10px, -50%);
+    opacity: 1;
+    visibility: visible;
+  }
+}
 @layer base {
   body {
     @apply bg-black;
@@ -27,6 +59,15 @@
   }
   .icon {
     @apply cursor-pointer w-9 h-9 hover:bg-[#1d9bf0] hover:bg-opacity-10 flex items-center justify-center rounded-full transition ease-out;
+  }
+  .fadeIn {
+    animation: fadeIn 0.2s ease-in-out both;
+  }
+  .translateLeft {
+    animation: translateL 0.2s ease-in-out both;
+  }
+  .translateRight {
+    animation: translateR 0.2s ease-in-out both;
   }
   .loading {
     width: 10px;
