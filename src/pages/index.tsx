@@ -12,16 +12,16 @@ const Home: NextPage = () => {
       <Image src='/logo.png' width={150} height={150} />
       <h1 className='text-3xl font-bold text-white mt-6'>No Spoilers Twitter!!!</h1>
       {/* {JSON.stringify(process.env)} */}
-      {process.env.NEXT_PUBLIC_FIREBASE_APIKEY}
-      {process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN}
-      {process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}
-      {process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BAKET}
-      {process.env.NEXT_PUBLIC_FIREBASE_MESSAGE_SENDER_ID}
-      {process.env.NEXT_PUBLIC_FIREBASE_APP_ID}
-      {process.env.NEXT_PUBLIC_BEARER_TOKEN}
-      {process.env.NEXT_PUBLIC_CLIENT_ID}
-      {process.env.NEXT_PUBLIC_CLIENT_SECRET}
-      {process.env.NEXT_PUBLIC_HEAD_URL}
+      <p>{process.env.NEXT_PUBLIC_FIREBASE_APIKEY}</p>
+      <p>{process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN}</p>
+      <p>{process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}</p>
+      <p>{process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BAKET}</p>
+      <p>{process.env.NEXT_PUBLIC_FIREBASE_MESSAGE_SENDER_ID}</p>
+      <p>{process.env.NEXT_PUBLIC_FIREBASE_APP_ID}</p>
+      <p>{process.env.NEXT_PUBLIC_BEARER_TOKEN}</p>
+      <p>{process.env.NEXT_PUBLIC_CLIENT_ID}</p>
+      <p>{process.env.NEXT_PUBLIC_CLIENT_SECRET}</p>
+      <p>{process.env.NEXT_PUBLIC_HEAD_URL}</p>
       {user ? (
         <div className='w-2/3'>
           <Link href='/timeline'>
