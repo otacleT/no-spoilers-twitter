@@ -1,12 +1,12 @@
 import { NextPage, GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { Sidebar } from 'src/components/Siderbar';
-import { Timeline } from 'src/components/timeline';
-import { HomeTimelineProps } from 'src/components/Feed/Feed';
+import { Timeline } from 'src/components/Timeline';
 import { auth, Client } from 'twitter-api-sdk';
 import nookie from 'nookies';
+import { TimeLine } from 'src/types/TImeLine';
 
-const Page: NextPage = ({ authorInfoTimeline }: HomeTimelineProps) => {
+const TimelinePage: NextPage = ({ authorInfoTimeline }: TimeLine) => {
   return (
     <div>
       <Head>
@@ -111,4 +111,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 };
 
-export default Page;
+export default TimelinePage;

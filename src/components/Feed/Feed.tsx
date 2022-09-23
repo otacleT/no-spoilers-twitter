@@ -1,23 +1,10 @@
 import { SparklesIcon } from '@heroicons/react/24/solid';
-import { FC, useState } from 'react';
+import { FC } from 'react';
+import { TimeLine } from 'src/types/TImeLine';
 import { FeedItem } from '../FeedItem';
 import { Input } from '../Input';
 
-export type HomeTimelineProps = {
-  authorInfoTimeline?:
-    | {
-        id?: string | undefined;
-        author_id?: string | undefined;
-        author_username: string | undefined;
-        author_name: string | undefined;
-        author_profile_image_url: string | undefined;
-        text?: string | undefined;
-        created_at?: string | undefined;
-      }[]
-    | undefined;
-};
-
-export const Feed: FC<HomeTimelineProps> = (props) => {
+export const Feed: FC<TimeLine> = (props) => {
   const { authorInfoTimeline } = props;
 
   return (

@@ -1,10 +1,11 @@
 import { FC, useState, useEffect } from 'react';
-import { Feed, HomeTimelineProps } from '../Feed';
+import { Feed } from '../Feed';
 import { useMute } from 'src/hook/useMute';
 import { MuteChild } from '../Mute/Mute';
 import { MuteItem } from 'src/types/MuteItem';
+import { TimeLine } from 'src/types/TImeLine';
 
-export const Timeline: FC<HomeTimelineProps> = (props) => {
+export const Timeline: FC<TimeLine> = (props) => {
   const { authorInfoTimeline } = props;
   const { isLoading, list } = useMute();
   const [userMutes, setUserMutes] = useState<MuteItem[]>(list);

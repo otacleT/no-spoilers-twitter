@@ -1,9 +1,5 @@
-import { Button, Modal, MultiSelect, Space, TextInput } from '@mantine/core';
-import { useForm } from '@mantine/form';
-import { FC, useCallback, useEffect, useState, Dispatch, SetStateAction } from 'react';
-
+import { Dispatch, FC, SetStateAction, useCallback, useState } from 'react';
 import { useAuth } from 'src/context/auth';
-import { useMute } from 'src/hook/useMute';
 import { MuteItem } from 'src/types/MuteItem';
 import { deleteMute } from 'src/utils/firebase/deleteMute';
 import { CreateModal } from '../CreateModal';
@@ -16,7 +12,6 @@ type MuteChildProps = {
 
 export const MuteChild: FC<MuteChildProps> = (props) => {
   const { userMutes, setUserMutes } = props;
-  const [opened, setOpened] = useState<boolean>(false);
   const { user } = useAuth();
   const [isCreate, setIsCreate] = useState<boolean>(false);
 

@@ -1,6 +1,5 @@
 import { NextPage } from 'next';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useAuth } from 'src/context/auth';
 import { login, logout } from 'src/utils/firebase/auth';
 
