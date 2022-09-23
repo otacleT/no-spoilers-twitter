@@ -1,9 +1,9 @@
-import { Dispatch, FC, SetStateAction, useCallback, useState } from 'react';
-import { useAuth } from 'src/context/auth';
-import { MuteItem } from 'src/types/MuteItem';
-import { deleteMute } from 'src/utils/firebase/deleteMute';
-import { CreateModal } from '../CreateModal';
-import { MuteSwitch } from '../MuteItem';
+import { Dispatch, FC, SetStateAction, useCallback, useState } from "react";
+import { useAuth } from "src/context/auth";
+import { MuteItem } from "src/types/MuteItem";
+import { deleteMute } from "src/lib/firebase/deleteMute";
+import { CreateModal } from "../CreateModal";
+import { MuteSwitch } from "../MuteItem";
 
 type MuteChildProps = {
   userMutes: MuteItem[];
@@ -40,18 +40,18 @@ export const MuteChild: FC<MuteChildProps> = (props) => {
   );
 
   return (
-    <div className='pl-3 pt-4 xl:w-[350px]'>
-      <div className='hidden flex-grow sm:flex items-center justify-between py-2 px-2'>
-        <button className='text-sm text-white leading-none' onClick={() => setIsSelect(!isSelect)}>
-          {isSelect ? '完了' : '編集'}
+    <div className="pl-3 pt-4 xl:w-[350px]">
+      <div className="hidden flex-grow sm:flex items-center justify-between py-2 px-2">
+        <button className="text-sm text-white leading-none" onClick={() => setIsSelect(!isSelect)}>
+          {isSelect ? "完了" : "編集"}
         </button>
-        <button className='text-xl text-white leading-none' onClick={() => setIsCreate(true)}>
+        <button className="text-xl text-white leading-none" onClick={() => setIsCreate(true)}>
           +
         </button>
       </div>
-      <h3 className='text-2xl text-white font-bold pt-2 pb-3 px-2'>ワードミュート</h3>
-      <div className='divide-y divide-gray-700'>
-        <h4 className='text-sm text-white pb-2 pt-4 font-bold px-2'>ミュート中</h4>
+      <h3 className="text-2xl text-white font-bold pt-2 pb-3 px-2">ワードミュート</h3>
+      <div className="divide-y divide-gray-700">
+        <h4 className="text-sm text-white pb-2 pt-4 font-bold px-2">ミュート中</h4>
         {userMutes &&
           userMutes.map(
             (item, index) =>
@@ -68,12 +68,12 @@ export const MuteChild: FC<MuteChildProps> = (props) => {
               ),
           )}
 
-        <h4 className='text-sm text-white pb-2 pt-4 font-bold px-2'>履歴</h4>
+        <h4 className="text-sm text-white pb-2 pt-4 font-bold px-2">履歴</h4>
         {userMutes &&
           userMutes.map(
             (item, index) =>
               !item.mutable && (
-                <div className='w-full relative' key={Math.round(Math.random() * 10000)}>
+                <div className="w-full relative" key={Math.round(Math.random() * 10000)}>
                   <MuteSwitch
                     isSelect={isSelect}
                     muteItem={item}

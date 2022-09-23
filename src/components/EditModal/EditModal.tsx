@@ -2,9 +2,8 @@ import { Button, Modal, MultiSelect, Space, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { Dispatch, FC, SetStateAction, useCallback, useEffect, useState } from "react";
 import { useAuth } from "src/context/auth";
+import { editMute } from "src/lib/firebase/editMute";
 import { MuteItem } from "src/types/MuteItem";
-import { addMute } from "src/utils/firebase/addMute";
-import { editMute } from "src/utils/firebase/editMute";
 
 type Props = {
   index: number;

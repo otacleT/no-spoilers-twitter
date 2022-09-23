@@ -3,7 +3,7 @@ import { useForm } from "@mantine/form";
 import { Dispatch, FC, SetStateAction, useCallback, useState } from "react";
 import { useAuth } from "src/context/auth";
 import { MuteItem } from "src/types/MuteItem";
-import { addMute } from "src/utils/firebase/addMute";
+import { addMute } from "src/lib/firebase/addMute";
 
 type Props = {
   opened: boolean;

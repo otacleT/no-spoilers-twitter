@@ -1,7 +1,7 @@
 import { User } from "firebase/auth";
 import { collection, getDocs } from "firebase/firestore";
 import { MuteItem } from "src/types/MuteItem";
-import { db } from "src/utils/firebase/init";
+import { db } from "src/lib/firebase/init";
 
 export async function getMute(user: User | null | undefined): Promise<MuteItem[]> {
   const list = new Array<MuteItem>();

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "src/context/auth";
 import { MuteItem } from "src/types/MuteItem";
-import { getMute } from "src/utils/firebase/getMute";
+import { getMute } from "src/lib/firebase/getMute";
 
 export type MuteList = {
   isLoading: boolean;
